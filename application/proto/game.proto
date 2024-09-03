@@ -1,0 +1,34 @@
+syntax = "proto3";
+package pb;
+option go_package = "application/pb";
+
+message CreateGameInput {
+    string Name = 1;
+    string Platform = 2;
+    double Price = 3;
+}
+
+message BaseGameOutput {
+    string ID = 1;
+    string Name = 2;
+    string Platform = 3;
+    double Price = 4;
+}
+
+message BlankInput {}
+
+message ListAllGamesOutput {
+    repeated BaseGameOutput Games = 1;
+}
+
+message GetGameInput {
+    string Name = 1;
+}
+
+service GameService {
+    rpc CreateGame(CreateGameInput) returns (BaseGameOutput) {}
+    rpc CreateGameStream(stream CreateGameInput) returns (ListAllGamesOutput) {}
+    rpc CreateGameStreamBidirectional(stream CreateGameInput) returns (stream BaseGameOutput) {}
+    rpc ListAllGames(BlankInput) returns (ListAllGamesOutput) {}
+    rpc GetGame(GetGameInput) returns (BaseGameOutput) {}
+}
